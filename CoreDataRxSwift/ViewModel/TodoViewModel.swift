@@ -11,16 +11,23 @@ import RxSwift
 
 class TodoViewModel {
     var todos = BehaviorSubject<[Todo]>(value: [Todo]())
-    let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     func fetchTodoItem() {
         let request = NSFetchRequest<Todo>(entityName: "Todo")
         
         do {
-            guard let todoData = try context?.fetch(request) else { return }
+            let todoData = try context.fetch(request)
             self.todos.onNext(todoData)
         } catch {
             print("Error fetching data. Error: \(error)")
         }
+    }
+    
+    func saveData(task: String) {
+        let newTodo = Todo(context: context)
+        newTodo.id = UUID()
+        newTodo.task = task
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
 }
