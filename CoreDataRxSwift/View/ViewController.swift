@@ -18,9 +18,10 @@ class ViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
+        title = "Todo List"
+        navigationController?.navigationBar.prefersLargeTitles = true
         view.addSubview(tableView)
         setupContraints()
-//        viewModel.saveData(task: "test 1")
         viewModel.fetchTodoItem()
         setupBindings()
     }
@@ -36,8 +37,6 @@ class ViewController: UIViewController, UITableViewDelegate {
         tableView.rx.setDelegate(self).disposed(by: bag)
         
         viewModel.todos.bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self)) { row, item, cell in
-//            var content = cell.defaultContentConfiguration()
-//            content.text = item.task
             cell.textLabel?.text = item.task
         }
         .disposed(by: bag)
