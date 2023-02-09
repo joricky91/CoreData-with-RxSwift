@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate {
+    
+    private var viewModel = TodoViewModel()
+    private var bag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,6 +20,9 @@ class ViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         setupContraints()
+//        viewModel.saveData(task: "test 1")
+        viewModel.fetchTodoItem()
+        setupBindings()
     }
 
     lazy var tableView: UITableView = {
@@ -23,6 +31,17 @@ class ViewController: UIViewController {
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         return table
     }()
+    
+    func setupBindings() {
+        tableView.rx.setDelegate(self).disposed(by: bag)
+        
+        viewModel.todos.bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self)) { row, item, cell in
+//            var content = cell.defaultContentConfiguration()
+//            content.text = item.task
+            cell.textLabel?.text = item.task
+        }
+        .disposed(by: bag)
+    }
     
     func setupContraints() {
         let safeArea = view.safeAreaLayoutGuide
