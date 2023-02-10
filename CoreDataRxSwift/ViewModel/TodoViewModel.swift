@@ -29,6 +29,5 @@ class TodoViewModel {
         newTodo.id = UUID()
         newTodo.task = task
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
-        print("success")
     }
 }
