@@ -56,7 +56,15 @@ class ViewController: UIViewController, UITableViewDelegate {
     }
     
     @objc func tapAddButton() {
-        print("tap")
+        let alert = UIAlertController(title: "Add Task", message: "Enter your new task", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { _ in
+            
+        }))
+        
+        present(alert, animated: true)
+        
     }
     
 }
