@@ -20,6 +20,7 @@ class ViewController: UIViewController, UITableViewDelegate {
         view.backgroundColor = .systemBackground
         title = "Todo List"
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tapAddButton))
         view.addSubview(tableView)
         setupContraints()
         viewModel.fetchTodoItem()
@@ -52,6 +53,10 @@ class ViewController: UIViewController, UITableViewDelegate {
             tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             tableView.heightAnchor.constraint(equalTo: safeArea.heightAnchor),
         ])
+    }
+    
+    @objc func tapAddButton() {
+        print("tap")
     }
     
 }
