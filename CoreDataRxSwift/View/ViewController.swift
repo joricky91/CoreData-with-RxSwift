@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ViewController: UIViewController, UITableViewDelegate {
+class ViewController: UIViewController {
     
     private var viewModel = TodoViewModel()
     private var bag = DisposeBag()
@@ -75,5 +75,21 @@ class ViewController: UIViewController, UITableViewDelegate {
         
     }
     
+}
+
+
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteButton = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            print("Tapped")
+        }
+        
+        let swipe = UISwipeActionsConfiguration(actions: [deleteButton])
+        return swipe
+    }
 }
 
