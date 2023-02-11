@@ -85,7 +85,20 @@ extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteButton = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            print("Tapped")
+            do {
+                let current = try self.viewModel.todos.value()[indexPath.row]
+                self.viewModel.context.delete(current)
+                
+                do {
+                    try self.viewModel.context.save()
+                } catch {
+                    print(error)
+                }
+                
+                self.viewModel.fetchTodoItem()
+            } catch {
+                print(error)
+            }
         }
         
         let swipe = UISwipeActionsConfiguration(actions: [deleteButton])
